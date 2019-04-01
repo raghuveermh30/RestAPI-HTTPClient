@@ -1,0 +1,26 @@
+package util;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class TestUtil {
+	
+
+	
+	public static String getValueByJpath(JSONObject responseJSON,  String jpath) throws NumberFormatException, JSONException {
+		Object obj = responseJSON;
+		for(String s :jpath.split("/")) {
+			if(!s.isEmpty())
+			if(!(s.contains("[") || s.contains("]")))
+				obj = ((JSONObject) obj).get(s);
+			else if (s.contains("[") || s.contains("]"))
+				obj = ((JSONArray) ((JSONObject) obj).get(s.split("\\[")[0])).get(Integer.parseInt(s.split("\\[")[1].replace("]", "")));
+		}
+			return obj.toString();
+		
+	}
+
+}
+
+// this method we have to pass only JsonPath 
